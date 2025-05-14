@@ -60,7 +60,7 @@ export default function Home() {
     formData.append('file', image);
 
     try {
-      const response = await axios.post('http://127.0.0.1:4000/predict', formData, {
+      const response = await axios.post('http://0.0.0.0:8080/predict', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       setPrediction(response.data.label);
