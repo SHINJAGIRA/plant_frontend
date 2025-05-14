@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
 import { FaSpinner, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
@@ -14,6 +14,7 @@ export default function Home() {
   const [error, setError] = useState('');
   const [isCorrect, setIsCorrect] = useState(null);
   const [correctLabel, setCorrectLabel] = useState('');
+  const fileInputRef = useRef(null);
 
   const handleImageChange = (e) => {
     const file = e.target.files?.[0];
@@ -106,6 +107,7 @@ export default function Home() {
             className="flex flex-col items-center justify-center border-2 border-dashed border-green-300 rounded-xl p-6 cursor-pointer hover:border-green-500 transition"
             onDrop={handleDrop}
             onDragOver={handleDragOver}
+            onClick={() => fileInputRef.current?.click()} // 🔥 Clickable drop zone
           >
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Drag & Drop or Click to Upload
@@ -113,6 +115,7 @@ export default function Home() {
             <input
               type="file"
               accept="image/*"
+              ref={fileInputRef} // 🔥 Hooking the ref
               onChange={handleImageChange}
               className="hidden"
             />
@@ -170,11 +173,9 @@ export default function Home() {
                 Confidence: {(confidence * 100).toFixed(2)}%
               </p>
             </div>
-           
           </motion.div>
         )}
       </div>
     </main>
   );
 }
-
